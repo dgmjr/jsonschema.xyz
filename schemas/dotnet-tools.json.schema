@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-2019-09/schema",
+    "$id": "https://jsonschema.xyz/dotnet-tools.json.schema",
+    "contentMediaType": "application/schema+json",
+    "lastModified": "2023-12-31T19:08:00.0000+05:00Z",
+    "title": "DotNet Tools",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "number"
+        },
+        "isRoot": {
+            "type": "boolean"
+        },
+        "tools": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "commands": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "version": {
+                        "type": "string",
+                        "format": "semver",
+                        "pattern": "^(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)(?:-(?<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+                    }
+                },
+                "required": [
+                    "commands",
+                    "version"
+                ],
+                "additionalProperties": true
+            }
+        }
+    }
+}

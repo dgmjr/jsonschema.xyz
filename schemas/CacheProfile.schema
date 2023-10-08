@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft/2019-09/schema",
+    "$id": "https://jsonschema.xyz/schemas/CacheProfile.schema",
+    "lastModified": "2023-12-31T19:08:00.0000+05:00Z",
+    "title": "Cache Profile",
+    "description": "Defines a set of settings which can be used for response caching.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "default": "https://jsonschema.xyz/schemas/CacheProfile.schema"
+        },
+        "Duration": {
+            "type": [
+                "integer",
+                "null"
+            ],
+            "format": "int32"
+        },
+        "Location": {
+            "oneOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "#/$defs/ResponseCacheLocation"
+                }
+            ]
+        },
+        "NoStore": {
+            "type": [
+                "boolean",
+                "null"
+            ]
+        },
+        "VaryByHeader": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "VaryByQueryKeys": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "$defs": {
+        "ResponseCacheLocationNames": {
+            "type": "string",
+            "description": "",
+            "enum": [
+                "Any",
+                "Client",
+                "None"
+            ]
+        },
+        "ResponseCacheLocationInts": {
+            "type": "integer",
+            "description": "",
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "ResponseCacheLocation": {
+            "type": [
+                "integer",
+                "string"
+            ],
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/ResponseCacheLocationNames"
+                },
+                {
+                    "$ref": "#/$defs/ResponseCacheLocationInts"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "$schema": "https://json-schema.org/draft-2019-09/schema",
+    "$id": "https://jsonschema.xyz/schemas/DownstreamApisConfiguration.schema",
+    "contentMediaType": "application/schema+json",
+    "lastModified": "2023-12-31T19:08:00.0000+05:00Z",
+    "title": "Downstream APIs Configuration",
+    "description": "The configuration for downstream APIs.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "#/$defs/VersionAndIsRoot"
+        },
+        {
+            "$ref": "#/$defs/DownstreamApis"
+        }
+    ],
+    "$defs": {
+        "DownstreamApis": {
+            "type": "object",
+            "properties": {
+                "MicrosoftGraphOptions": {
+                    "type": "object",
+                    "$ref": "#/$defs/DownstreamApi",
+                    "additionalProperties": true,
+                    "description": "The options for the Microsoft Graph API."
+                },
+                "additionalProperties": {
+                    "type": "object",
+                    "$ref": "#/$defs/DownstreamApi",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "DownstreamApi": {
+            "type": "object",
+            "properties": {
+                "BaseUrl": {
+                    "type": "string",
+                    "description": "The base URL of the downstream API."
+                },
+                "Scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "The scopes to request from the downstream API."
+                    }
+                }
+            },
+            "required": [
+                "BaseUrl",
+                "Scopes"
+            ]
+        },
+        "VersionAndIsRoot": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "number",
+                    "description": "The optional version of the configuration."
+                },
+                "isRoot": {
+                    "type": "boolean",
+                    "description": "An optional Boolean value indicating whether this is the root configuration."
+                }
+            }
+        }
+    }
+}
