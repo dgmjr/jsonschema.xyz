@@ -17,7 +17,7 @@
             "description": "Gets or sets the IP address of the endpoint."
         },
         "Port": {
-            "$ref": "https://jsonschema.xyz/schemas/Net/TcpPort.schema",
+            "$ref": "https://jsonschema.xyz/schemas/TcpPort.schema",
             "description": "Gets or sets the port number of the endpoint."
         }
     }
