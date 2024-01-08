@@ -9,11 +9,11 @@
     "additionalProperties": false,
     "properties": {
         "AddressFamily": {
-            "$ref": "https://jsonschema.xyz/AddressFamily.schema",
+            "$ref": "https://jsonschema.xyz/schemas/AddressFamily.schema",
             "description": "Gets the Internet Protocol (IP) address family."
         },
         "Address": {
-            "$ref": "https://jsonschema.xyz/IPAddress.schema",
+            "$ref": "https://jsonschema.xyz/schemas/IPAddress.schema",
             "description": "Gets or sets the IP address of the endpoint."
         },
         "Port": {
