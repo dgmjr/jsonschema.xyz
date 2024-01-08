@@ -1074,18 +1074,18 @@
     "EndPoint": {
       "anyOf": [
         {
-          "$ref": "https://jsonschema.xyz/DnsEndPoint.schema"
+          "$ref": "https://jsonschema.xyz/schemas/DnsEndPoint.schema"
         },
         {
-          "$ref": "https://jsonschema.xyz/IPEndPoint.schema"
+          "$ref": "https://jsonschema.xyz/schemas/IPEndPoint.schema"
         },
         {
-          "$ref": "https://jsonschema.xyz/UnixDomainSocketEndPoint.schema"
+          "$ref": "https://jsonschema.xyz/schemas/UnixDomainSocketEndPoint.schema"
         }
       ]
     },
     "AddressFamily": {
-      "$ref": "https://jsonschema.xyz/AddressFamily.schema"
+      "$ref": "https://jsonschema.xyz/schemas/AddressFamily.schema"
     },
     "SocketManager": {
       "type": "object",
