@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "https://jsonschema.xyz/schemas/Net/IPEndPoint.schema",
+    "$id": "https://jsonschema.xyz/schemas/IPEndPoint.schema",
     "title": "IP End Point",
     "description": "Represents a network endpoint as an IP address and a port number.",
     "contentMediaType": "application/schema+json",

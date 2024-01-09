@@ -847,10 +847,10 @@
             }
         },
         "EndPoint": {
-            "$ref": "https://jsonschema.xyz/schemas/Net/EndPoint.schema"
+            "$ref": "https://jsonschema.xyz/schemas/EndPoint.schema"
         },
         "AddressFamily": {
-            "$ref": "https://jsonschema.xyz/schemas/Net/AddressFamily.schema"
+            "$ref": "https://jsonschema.xyz/schemas/AddressFamily.schema"
         },
         "SocketManager": {
             "type": "object",
