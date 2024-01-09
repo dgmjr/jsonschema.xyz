@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft/2020-12/schema",
+  "id": "https://jsonschema.xyz/Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions.schema",
+  "title": "Application Insights Service Options",
+  "type": "object",
+  "description": "Application Insights service options defines the custom behavior of the features to add, as opposed to the default selection of features obtained from Application Insights.",
+  "additionalProperties": false,
+  "properties": {
+    "EnableQuickPulseMetricStream": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether QuickPulseTelemetryModule and QuickPulseTelemetryProcessor are registered with the configuration.\nSetting EnableQuickPulseMetricStream to false, will disable the default quick pulse metric stream. Defaults to true."
+    },
+    "EnablePerformanceCounterCollectionModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether PerformanceCollectorModule should be enabled.\nDefaults to true."
+    },
+    "EnableAppServicesHeartbeatTelemetryModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether AppServicesHeartbeatTelemetryModule should be enabled.\nDefaults to true.\nIMPORTANT: This setting will be ignored if either EnableDiagnosticsTelemetryModule or EnableHeartbeat are set to false."
+    },
+    "EnableAzureInstanceMetadataTelemetryModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether AzureInstanceMetadataTelemetryModule should be enabled.\nDefaults to true.\nIMPORTANT: This setting will be ignored if either EnableDiagnosticsTelemetryModule or EnableHeartbeat are set to false."
+    },
+    "EnableDependencyTrackingTelemetryModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether DependencyTrackingTelemetryModule should be enabled.\nDefaults to true."
+    },
+    "EnableEventCounterCollectionModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether EventCounterCollectionModule should be enabled.\nDefaults to true."
+    },
+    "EnableAdaptiveSampling": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether telemetry processor that controls sampling is added to the service.\nSetting EnableAdaptiveSampling to false, will disable the default adaptive sampling feature. Defaults to true."
+    },
+    "InstrumentationKey": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Gets or sets the default instrumentation key for the application.",
+      "x-deprecated": true,
+      "x-deprecatedMessage": "InstrumentationKey based global ingestion is being deprecated. Use ApplicationInsightsServiceOptions.ConnectionString. See https://github.com/microsoft/ApplicationInsights-dotnet/issues/2560 for more details."
+    },
+    "ConnectionString": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Gets or sets the connection string for the application."
+    },
+    "ApplicationVersion": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Gets or sets the application version reported with telemetries."
+    },
+    "DeveloperMode": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Gets or sets a value indicating whether telemetry channel should be set to developer mode."
+    },
+    "EndpointAddress": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Gets or sets the endpoint address of the channel."
+    },
+    "EnableDebugLogger": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether a logger would be registered automatically in debug mode."
+    },
+    "EnableHeartbeat": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether heartbeats are enabled.\nIMPORTANT: This setting will be ignored if EnableDiagnosticsTelemetryModule is set to false.\nIMPORTANT: Disabling this will cause the following settings to be ignored:\nEnableAzureInstanceMetadataTelemetryModule.\nEnableAppServicesHeartbeatTelemetryModule."
+    },
+    "AddAutoCollectedMetricExtractor": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether AutoCollectedMetricExtractors are added or not.\nDefaults to true."
+    },
+    "RequestCollectionOptions": {
+      "description": "Gets RequestCollectionOptions that allow to manage RequestTrackingTelemetryModule.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/RequestCollectionOptions"
+        }
+      ]
+    },
+    "EnableRequestTrackingTelemetryModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether RequestTrackingTelemetryModule should be enabled.\nDefaults to true."
+    },
+    "EnableAuthenticationTrackingJavaScript": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether a JavaScript snippet to track the current authenticated user should\nbe printed along with the main ApplicationInsights tracking script."
+    },
+    "EnableDiagnosticsTelemetryModule": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether the DiagnosticsTelemetryModule should be enabled.\nIMPORTANT: Disabling this will cause the following settings to be ignored:\nEnableHeartbeat.\nEnableAzureInstanceMetadataTelemetryModule.\nEnableAppServicesHeartbeatTelemetryModule."
+    },
+    "DependencyCollectionOptions": {
+      "description": "Gets DependencyCollectionOptions that allow to manage DependencyTrackingTelemetryModule.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/DependencyCollectionOptions"
+        }
+      ]
+    },
+    "EnableActiveTelemetryConfigurationSetup": {
+      "type": "boolean",
+      "description": "Gets or sets a value indicating whether TelemetryConfiguration.Active should be initialized.\nFormer versions of this library had a dependency on this static instance. \nThis dependency has been removed and we no longer initialize this by default.\nIf users depended on this behavior you should enable this.\nHowever, we recommend migrating away from using TelemetryConfiguration.Active in your projects."
+    },
+    "$schema": {
+      "type": "string",
+      "description": "The URI of the schema itself (not necessarily the URI of the resource it describes).",
+      "format": "uri",
+      "default": "https://jsonschema.xyz/Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions.schema.schema"
+    },
+    "contentMediaType": {
+      "type": "string",
+      "description": "The content type of the file (usually \"application/json\")",
+      "format": "uri",
+      "default": "application/json"
+    },
+    "$id": {
+      "type": "string",
+      "description": "The URI of the JSON file itself (not necessarily the URI of the resource it describes).",
+      "format": "uri"
+    }
+  },
+  "$defs": {
+    "RequestCollectionOptions": {
+      "type": "object",
+      "description": "Request collection options define the custom behavior or non-default features of request collection.",
+      "additionalProperties": false,
+      "properties": {
+        "InjectResponseHeaders": {
+          "type": "boolean",
+          "description": "Gets or sets a value indicating whether the Request-Context header is to be injected into the response."
+        },
+        "TrackExceptions": {
+          "type": "boolean",
+          "description": "Gets or sets a value indicating whether exceptions are to be tracked by the RequestCollectionModule.\nExceptions could be tracked by ApplicationInsightsLoggerProvider as well which is not affected by\nthis setting."
+        },
+        "EnableW3CDistributedTracing": {
+          "type": "boolean",
+          "description": "Gets or sets a value indicating whether W3C distributed tracing standard is enabled.",
+          "x-deprecated": true,
+          "x-deprecatedMessage": "This flag is obsolete and noop. Use System.Diagnostics.Activity.DefaultIdFormat (along with ForceDefaultIdFormat) flags instead."
+        }
+      }
+    },
+    "DependencyCollectionOptions": {
+      "type": "object",
+      "description": "Default collection options define the custom behavior or non-default features of dependency collection.",
+      "additionalProperties": false,
+      "properties": {
+        "EnableLegacyCorrelationHeadersInjection": {
+          "type": "boolean",
+          "description": "Gets or sets a value indicating whether to enable legacy (x-ms*) correlation headers injection."
+        }
+      }
+    }
+  },
+  "lastModified": "2024-01-08T23:21:50.1725910-05:00",
+  "contentMediaType": "application/schema+json",
+  "x-generator": "generator.jsonschema.xyz",
+  "x-generator-author": "David G. Moore, Jr.",
+  "x-generator-author-github-url": "https://github.com/dgmjr",
+  "x-generator-description": "This Website provides JSON schemas for any given data type.",
+  "x-generator-email": "json@jsonschema.xyz",
+  "x-generator-url": "https://generator.jsonschema.xyz",
+  "x-generator-version": "v0.0.1"
+}
