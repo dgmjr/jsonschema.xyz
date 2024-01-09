@@ -9,7 +9,7 @@
     "properties": {
         "$schema": {
             "type": "string",
-            "default": "https://jsonschema.xyz/StackExchange.Redis.ConfigurationOptions.schema"
+            "default": "https://jsonschema.xyz/schemas/StackExchange.Redis.ConfigurationOptions.schema"
         },
         "Configuration": {
             "type": [
@@ -55,7 +55,7 @@
         }
     },
     "$defs": {
-        "ConfigurationOptions": { "$ref": "https://jsonschema.xyz/StackExchange.Redis.ConfigurationOptions.schema" },
+        "ConfigurationOptions": { "$ref": "https://jsonschema.xyz/schemas/StackExchange.Redis.ConfigurationOptions.schema" },
         "DefaultOptionsProvider": {
             "type": "object",
             "description": "A defaults providers for ConfigurationOptions.\nThis providers defaults not explicitly specified and is present to be inherited by environments that want to provide\nbetter defaults for their use case, e.g. in a single wrapper library used many places.",
