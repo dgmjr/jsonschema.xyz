@@ -1,0 +1,919 @@
+{
+    "$schema": "http://json-schema.org/draft/2020-12/schema",
+    "id": "https://jsonschema.xyz/Yarp.ReverseProxy.Configuration.IProxyConfig.schema",
+    "title": "YARP (\"Yet Another Reverse Proxy\") Configuration",
+    "type": "object",
+    "description": "Represents a snapshot of proxy configuration data. These properties may be accessed multiple times and should not be modified.",
+    "x-abstract": true,
+    "additionalProperties": false,
+    "properties": {
+        "RevisionId": {
+            "type": "string",
+            "description": "A unique identifier for this revision of the configuration."
+        },
+        "Routes": {
+            "type": "array",
+            "description": "Routes matching requests to clusters.",
+            "items": {
+                "$ref": "#/$defs/RouteConfig"
+            }
+        },
+        "Clusters": {
+            "type": "array",
+            "description": "Cluster information for where to proxy requests to.",
+            "items": {
+                "$ref": "#/$defs/ClusterConfig"
+            }
+        },
+        "ChangeToken": {
+            "description": "A notification that triggers when this snapshot expires.",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/IChangeToken"
+                }
+            ]
+        },
+        "$schema": {
+            "type": "string",
+            "description": "The URI of the schema itself (not necessarily the URI of the resource it describes).",
+            "format": "uri",
+            "default": "https://jsonschema.xyz/Yarp.ReverseProxy.Configuration.IProxyConfig.schema"
+        },
+        "contentMediaType": {
+            "type": "string",
+            "description": "The content type of the file (usually \"application/json\")",
+            "format": "uri",
+            "default": "application/json"
+        },
+        "$id": {
+            "type": "string",
+            "description": "The URI of the JSON file itself (not necessarily the URI of the resource it describes).",
+            "format": "uri"
+        }
+    },
+    "$defs": {
+        "RouteConfig": {
+            "type": "object",
+            "description": "Describes a route that matches incoming requests based on the Match criteria\nand proxies matching requests to the cluster identified by its ClusterId.",
+            "additionalProperties": false,
+            "properties": {
+                "RouteId": {
+                    "type": "string",
+                    "description": "Globally unique identifier of the route.\nThis field is required."
+                },
+                "Match": {
+                    "description": "Parameters used to match requests.\nThis field is required.",
+                    "oneOf": [
+                        {
+                            "$ref": "#/$defs/RouteMatch"
+                        }
+                    ]
+                },
+                "Order": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "description": "Optionally, an order value for this route. Routes with lower numbers take precedence over higher numbers.",
+                    "format": "int32"
+                },
+                "ClusterId": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the cluster that requests matching this route\nshould be proxied to."
+                },
+                "AuthorizationPolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The name of the AuthorizationPolicy to apply to this route.\nIf not set then only the FallbackPolicy will apply.\nSet to \"Default\" to enable authorization with the applications default policy.\nSet to \"Anonymous\" to disable all authorization checks for this route."
+                },
+                "RateLimiterPolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The name of the RateLimiterPolicy to apply to this route.\nIf not set then only the GlobalLimiter will apply.\nSet to \"Disable\" to disable rate limiting for this route.\nSet to \"Default\" or leave empty to use the global rate limits, if any."
+                },
+                "CorsPolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The name of the CorsPolicy to apply to this route.\nIf not set then the route won't be automatically matched for cors preflight requests.\nSet to \"Default\" to enable cors with the default policy.\nSet to \"Disable\" to refuses cors requests for this route."
+                },
+                "MaxRequestBodySize": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "description": "An optional override for how large request bodies can be in bytes. If set, this overrides the server's default (30MB) per request.\nSet to '-1' to disable the limit for this route.",
+                    "format": "int64"
+                },
+                "Metadata": {
+                    "type": [
+                        "null",
+                        "object"
+                    ],
+                    "description": "Arbitrary key-value pairs that further describe this route.",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "Transforms": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Parameters used to transform the request and response. See ITransformBuilder.",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "RouteMatch": {
+            "type": "object",
+            "description": "Describes the matching criteria for a route.",
+            "additionalProperties": false,
+            "properties": {
+                "Methods": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Only match requests that use these optional HTTP methods. E.g. GET, POST.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Hosts": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Only match requests with the given Host header.\nSupports wildcards and ports. For unicode host names, do not use punycode.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Path": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Only match requests with the given Path pattern."
+                },
+                "QueryParameters": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Only match requests that contain all of these query parameters.",
+                    "items": {
+                        "$ref": "#/$defs/RouteQueryParameter"
+                    }
+                },
+                "Headers": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "Only match requests that contain all of these headers.",
+                    "items": {
+                        "$ref": "#/$defs/RouteHeader"
+                    }
+                }
+            }
+        },
+        "RouteQueryParameter": {
+            "type": "object",
+            "description": "Route criteria for a query parameter that must be present on the incoming request.",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "description": "Name of the query parameter to look for.\nThis field is case insensitive and required."
+                },
+                "Values": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "A collection of acceptable query parameter values used during routing.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Mode": {
+                    "description": "Specifies how query parameter values should be compared (e.g. exact matches Vs. contains).\nDefaults to Exact.",
+                    "oneOf": [
+                        {
+                            "$ref": "#/$defs/QueryParameterMatchMode"
+                        }
+                    ]
+                },
+                "IsCaseSensitive": {
+                    "type": "boolean",
+                    "description": "Specifies whether query parameter value comparisons should ignore case.\nWhen true, Ordinal is used.\nWhen false, OrdinalIgnoreCase is used.\nDefaults to false."
+                }
+            }
+        },
+        "QueryParameterMatchMode_Integers": {
+            "type": "integer",
+            "description": "How to match Query Parameter values.",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "QueryParameterMatchMode_Strings": {
+            "type": "string",
+            "description": "How to match Query Parameter values.",
+            "enum": [
+                "Exact",
+                "Contains",
+                "NotContains",
+                "Prefix",
+                "Exists"
+            ]
+        },
+        "QueryParameterMatchMode": {
+            "type": ["integer", "string"],
+            "description": "How to match Query Parameter values.",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/QueryParameterMatchMode_Integers"
+                },
+                {
+                    "$ref": "#/$defs/QueryParameterMatchMode_Strings"
+                }
+            ]
+        },
+        "RouteHeader": {
+            "type": "object",
+            "description": "Route criteria for a header that must be present on the incoming request.",
+            "additionalProperties": false,
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "description": "Name of the header to look for.\nThis field is case insensitive and required."
+                },
+                "Values": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "description": "A collection of acceptable header values used during routing. Only one value must match.\nThe list must not be empty unless using Exists or NotExists.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Mode": {
+                    "description": "Specifies how header values should be compared (e.g. exact matches Vs. by prefix).\nDefaults to ExactHeader.",
+                    "oneOf": [
+                        {
+                            "$ref": "#/$defs/HeaderMatchMode"
+                        }
+                    ]
+                },
+                "IsCaseSensitive": {
+                    "type": "boolean",
+                    "description": "Specifies whether header value comparisons should ignore case.\nWhen true, Ordinal is used.\nWhen false, OrdinalIgnoreCase is used.\nDefaults to false."
+                }
+            }
+        },
+        "HeaderMatchMode_Integers": {
+            "type": "integer",
+            "description": "How to match header values.",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        },
+        "HeaderMatchMode_Strings": {
+            "type": "string",
+            "description": "How to match header values.",
+            "enum": [
+                "ExactHeader",
+                "HeaderPrefix",
+                "Contains",
+                "NotContains",
+                "Exists",
+                "NotExists"
+            ]
+        },
+        "HeaderMatchMode": {
+            "type": ["integer", "string"],
+            "description": "How to match header values.",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/HeaderMatchMode_Integers"
+                },
+                {
+                    "$ref": "#/$defs/HeaderMatchMode_Strings"
+                }
+            ]
+        },
+        "ClusterConfig": {
+            "type": "object",
+            "description": "A cluster is a group of equivalent endpoints and associated policies.",
+            "additionalProperties": false,
+            "properties": {
+                "ClusterId": {
+                    "type": "string",
+                    "description": "The Id for this cluster. This needs to be globally unique.\nThis field is required."
+                },
+                "LoadBalancingPolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Load balancing policy."
+                },
+                "SessionAffinity": {
+                    "description": "Session affinity config.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/SessionAffinityConfig"
+                        }
+                    ]
+                },
+                "HealthCheck": {
+                    "description": "Health checking config.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/HealthCheckConfig"
+                        }
+                    ]
+                },
+                "HttpClient": {
+                    "description": "Config for the HTTP client that is used to call destinations in this cluster.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/HttpClientConfig"
+                        }
+                    ]
+                },
+                "HttpRequest": {
+                    "description": "Config for outgoing HTTP requests.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/ForwarderRequestConfig"
+                        }
+                    ]
+                },
+                "Destinations": {
+                    "type": [
+                        "null",
+                        "object"
+                    ],
+                    "description": "The set of destinations associated with this cluster.",
+                    "additionalProperties": {
+                        "$ref": "#/$defs/DestinationConfig"
+                    }
+                },
+                "Metadata": {
+                    "type": [
+                        "null",
+                        "object"
+                    ],
+                    "description": "Arbitrary key-value pairs that further describe this cluster.",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "SessionAffinityConfig": {
+            "type": "object",
+            "description": "Session affinity options.",
+            "additionalProperties": false,
+            "properties": {
+                "Enabled": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Indicates whether session affinity is enabled."
+                },
+                "Policy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The session affinity policy to use."
+                },
+                "FailurePolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Strategy handling missing destination for an affinitized request."
+                },
+                "AffinityKeyName": {
+                    "type": "string",
+                    "description": "Identifies the name of the field where the affinity value is stored.\nFor the cookie affinity policy this will be the cookie name.\nFor the header affinity policy this will be the header name.\nThe policy will give its own default if no value is set.\nThis value should be unique across clusters to avoid affinity conflicts.\nhttps://github.com/microsoft/reverse-proxy/issues/976\nThis field is required."
+                },
+                "Cookie": {
+                    "description": "Configuration of a cookie storing the session affinity key in case\nthe Policy is set to 'Cookie'.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/SessionAffinityCookieConfig"
+                        }
+                    ]
+                }
+            }
+        },
+        "SessionAffinityCookieConfig": {
+            "type": "object",
+            "description": "Config for session affinity cookies.",
+            "additionalProperties": false,
+            "properties": {
+                "Path": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The cookie path."
+                },
+                "Domain": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The domain to associate the cookie with."
+                },
+                "HttpOnly": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Indicates whether a cookie is accessible by client-side script."
+                },
+                "SecurePolicy": {
+                    "description": "The policy that will be used to determine Secure.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/CookieSecurePolicy"
+                        }
+                    ]
+                },
+                "SameSite": {
+                    "description": "The SameSite attribute of the cookie.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/SameSiteMode"
+                        }
+                    ]
+                },
+                "Expiration": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the lifespan of a cookie.",
+                    "format": "duration"
+                },
+                "MaxAge": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Gets or sets the max-age for the cookie.",
+                    "format": "duration"
+                },
+                "IsEssential": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Indicates if this cookie is essential for the application to function correctly. If true then\nconsent policy checks may be bypassed."
+                }
+            }
+        },
+        "CookieSecurePolicy_Integers": {
+            "type": "integer",
+            "description": "Determines how cookie security properties are set.",
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "CookieSecurePolicy_Strings": {
+            "type": "string",
+            "description": "Determines how cookie security properties are set.",
+            "enum": [
+                "SameAsRequest",
+                "Always",
+                "None"
+            ]
+        },
+        "CookieSecurePolicy": {
+            "type": ["integer", "string"],
+            "description": "Determines how cookie security properties are set.",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/CookieSecurePolicy_Integers"
+                },
+                {
+                    "$ref": "#/$defs/CookieSecurePolicy_Strings"
+                }
+            ]
+        },
+        "SameSiteMode_Integers": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                -1
+            ]
+        },
+        "SameSiteMode_Strings": {
+            "type": "string",
+            "description": "",
+            "enum": [
+                "None",
+                "Lax",
+                "Strict",
+                "Unspecified"
+            ]
+        },
+        "SameSiteMode": {
+            "type": ["integer", "string"],
+            "description": "",
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/SameSiteMode_Integers"
+                },
+                {
+                    "$ref": "#/$defs/SameSiteMode_Strings"
+                }
+            ]
+        },
+        "HealthCheckConfig": {
+            "type": "object",
+            "description": "All health check config.",
+            "additionalProperties": false,
+            "properties": {
+                "Passive": {
+                    "description": "Passive health check config.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/PassiveHealthCheckConfig"
+                        }
+                    ]
+                },
+                "Active": {
+                    "description": "Active health check config.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/ActiveHealthCheckConfig"
+                        }
+                    ]
+                },
+                "AvailableDestinationsPolicy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Available destinations policy."
+                }
+            }
+        },
+        "PassiveHealthCheckConfig": {
+            "type": "object",
+            "description": "Passive health check config.",
+            "additionalProperties": false,
+            "properties": {
+                "Enabled": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Whether passive health checks are enabled."
+                },
+                "Policy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Passive health check policy."
+                },
+                "ReactivationPeriod": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Destination reactivation period after which an unhealthy destination is considered healthy again.",
+                    "format": "duration"
+                }
+            }
+        },
+        "ActiveHealthCheckConfig": {
+            "type": "object",
+            "description": "Active health check config.",
+            "additionalProperties": false,
+            "properties": {
+                "Enabled": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Whether active health checks are enabled."
+                },
+                "Interval": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Health probe interval.",
+                    "format": "duration"
+                },
+                "Timeout": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Health probe timeout, after which a destination is considered unhealthy.",
+                    "format": "duration"
+                },
+                "Policy": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Active health check policy."
+                },
+                "Path": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "HTTP health check endpoint path."
+                }
+            }
+        },
+        "HttpClientConfig": {
+            "type": "object",
+            "description": "Options used for communicating with the destination servers.",
+            "additionalProperties": false,
+            "properties": {
+                "SslProtocols": {
+                    "description": "What TLS protocols to use.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/SslProtocols"
+                        }
+                    ]
+                },
+                "DangerousAcceptAnyServerCertificate": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Indicates if destination server https certificate errors should be ignored.\nThis should only be done when using self-signed certificates."
+                },
+                "MaxConnectionsPerServer": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "description": "Limits the number of connections used when communicating with the destination server.",
+                    "format": "int32"
+                },
+                "WebProxy": {
+                    "description": "Optional web proxy used when communicating with the destination server. ",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/WebProxyConfig"
+                        }
+                    ]
+                },
+                "EnableMultipleHttp2Connections": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Gets or sets a value that indicates whether additional HTTP/2 connections can\nbe established to the same server when the maximum number of concurrent streams\nis reached on all existing connections."
+                },
+                "RequestHeaderEncoding": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Enables non-ASCII header encoding for outgoing requests."
+                }
+            }
+        },
+        "SslProtocols": {
+            "type": "integer",
+            "description": "Defines the possible versions of SslProtocols.",
+            "x-enumFlags": true,
+            "x-enumNames": [
+                "None",
+                "Ssl2",
+                "Ssl3",
+                "Tls",
+                "Default",
+                "Tls11",
+                "Tls12",
+                "Tls13"
+            ],
+            "enum": [
+                0,
+                12,
+                48,
+                192,
+                240,
+                768,
+                3072,
+                12288
+            ]
+        },
+        "WebProxyConfig": {
+            "type": "object",
+            "description": "Config used to construct  instance.",
+            "additionalProperties": false,
+            "properties": {
+                "Address": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "The URI of the proxy server.",
+                    "format": "uri"
+                },
+                "BypassOnLocal": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "true to bypass the proxy for local addresses; otherwise, false.\nIf null, default value will be used: false"
+                },
+                "UseDefaultCredentials": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Controls whether the  are sent with requests.\nIf null, default value will be used: false"
+                }
+            }
+        },
+        "ForwarderRequestConfig": {
+            "type": "object",
+            "description": "Config for SendAsync",
+            "additionalProperties": false,
+            "properties": {
+                "ActivityTimeout": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "How long a request is allowed to remain idle between any operation completing, after which it will be canceled.\nThe default is 100 seconds. The timeout will reset when response headers are received or after successfully reading or\nwriting any request, response, or streaming data like gRPC or WebSockets. TCP keep-alives and HTTP/2 protocol pings will\nnot reset the timeout, but WebSocket pings will.",
+                    "format": "duration"
+                },
+                "Version": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Preferred version of the outgoing request.\nThe default is HTTP/2.0."
+                },
+                "VersionPolicy": {
+                    "description": "The policy applied to version selection, e.g. whether to prefer downgrades, upgrades or\nrequest an exact version. The default is `RequestVersionOrLower`.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "$ref": "#/$defs/HttpVersionPolicy"
+                        }
+                    ]
+                },
+                "AllowResponseBuffering": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Allows to use write buffering when sending a response back to the client,\nif the server hosting YARP (e.g. IIS) supports it.\nNOTE: enabling it can break SSE (server side event) scenarios."
+                }
+            }
+        },
+        "HttpVersionPolicy": {
+            "type": "integer",
+            "description": "",
+            "x-enumNames": [
+                "RequestVersionOrLower",
+                "RequestVersionOrHigher",
+                "RequestVersionExact"
+            ],
+            "enum": [
+                0,
+                1,
+                2
+            ]
+        },
+        "DestinationConfig": {
+            "type": "object",
+            "description": "Describes a destination of a cluster.",
+            "additionalProperties": false,
+            "properties": {
+                "Address": {
+                    "type": "string",
+                    "description": "Address of this destination. E.g. https://127.0.0.1:123/abcd1234/.\nThis field is required."
+                },
+                "Health": {
+                    "type": [
+                        "null",
+                        "string"
+                    ],
+                    "description": "Endpoint accepting active health check probes. E.g. http://127.0.0.1:1234/."
+                },
+                "Metadata": {
+                    "type": [
+                        "null",
+                        "object"
+                    ],
+                    "description": "Arbitrary key-value pairs that further describe this destination.",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "IChangeToken": {
+            "type": "object",
+            "description": "Propagates notifications that a change has occurred.",
+            "x-abstract": true,
+            "additionalProperties": false,
+            "properties": {
+                "HasChanged": {
+                    "type": "boolean",
+                    "description": "Gets a value that indicates if a change has occurred."
+                },
+                "ActiveChangeCallbacks": {
+                    "type": "boolean",
+                    "description": "Indicates if this token will pro-actively raise callbacks. If false, the token consumer must\npoll HasChanged to detect changes."
+                }
+            }
+        }
+    },
+    "lastModified": "2024-01-09T02:45:54.2957940-05:00",
+    "contentMediaType": "application/schema+json",
+    "x-generator": "jsonschema.xyz",
+    "x-generator-author": "David G. Moore, Jr.",
+    "x-generator-author-github-url": "https://github.com/dgmjr",
+    "x-generator-description": "This Website provides JSON schemas for any given data type.",
+    "x-generator-email": "json@jsonschema.xyz",
+    "x-generator-url": "https://jsonschema.xyz",
+    "x-generator-version": "v0.0.1"
+}
