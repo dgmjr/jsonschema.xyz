@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "https://jsonschema.xyz/Dgmjr.AspNetCore.Http.HttpServicesOptions.schema",
+  "id": "https://jsonschema.xyz/schemas/HttpServicesOptions.schema",
   "title": "Http Services Options",
   "type": "object",
   "additionalProperties": false,
@@ -80,15 +80,21 @@
     "AddHttpContextAccessor": {
       "type": "boolean"
     },
+    "UseExceptionHandler": {
+      "type": "boolean"
+    },
+    "ExceptionHandling": {
+      "$ref": "#/definitions/ExceptionHandlerOptions"
+    },
     "$schema": {
       "type": "string",
       "description": "The URI of the schema itself (not necessarily the URI of the resource it describes).",
       "format": "uri",
-      "default": "https://jsonschema.xyz/Dgmjr.AspNetCore.Http.HttpServicesOptions.schema"
+      "default": "https://jsonschema.xyz/schemas/HttpServicesOptions.schema"
     },
     "contentMediaType": {
       "type": "string",
-      "description": "The content type of the file (usually \"application/json\")",
+      "description": "The content Type of the file (usually \"application/json\")",
       "format": "uri",
       "default": "application/json"
     },
@@ -180,7 +186,7 @@
     },
     "CookieSecurePolicy": {
       "type": "integer",
-      "description": "Determines how cookie security properties are set.",
+      "description": "",
       "x-enumNames": [
         "SameAsRequest",
         "Always",
@@ -194,56 +200,40 @@
     },
     "CookieBuilder": {
       "type": "object",
-      "description": "Defines settings used to create a cookie.",
       "additionalProperties": false,
       "properties": {
         "Name": {
           "type": [
             "null",
             "string"
-          ],
-          "description": "The name of the cookie."
+          ]
         },
         "Path": {
           "type": [
             "null",
             "string"
-          ],
-          "description": "The cookie path."
+          ]
         },
         "Domain": {
           "type": [
             "null",
             "string"
-          ],
-          "description": "The domain to associate the cookie with."
+          ]
         },
         "HttpOnly": {
-          "type": "boolean",
-          "description": "Indicates whether a cookie is accessible by client-side script."
+          "type": "boolean"
         },
         "SameSite": {
-          "description": "The SameSite attribute of the cookie. The default value is Lax",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/SameSiteMode"
-            }
-          ]
+          "$ref": "#/definitions/SameSiteMode"
         },
         "SecurePolicy": {
-          "description": "The policy that will be used to determine .\nThis is determined from the HttpContext passed to Build.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/CookieSecurePolicy"
-            }
-          ]
+          "$ref": "#/definitions/CookieSecurePolicy"
         },
         "Expiration": {
           "type": [
             "null",
             "string"
           ],
-          "description": "Gets or sets the lifespan of a cookie.",
           "format": "duration"
         },
         "MaxAge": {
@@ -251,12 +241,10 @@
             "null",
             "string"
           ],
-          "description": "Gets or sets the max-age for the cookie.",
           "format": "duration"
         },
         "IsEssential": {
-          "type": "boolean",
-          "description": "Indicates if this cookie is essential for the application to function correctly. If true then\nconsent policy checks may be bypassed. The default value is false."
+          "type": "boolean"
         },
         "Extensions": {
           "type": "array",
@@ -1092,7 +1080,6 @@
     },
     "IFileProvider": {
       "type": "object",
-      "description": "A read-only file provider abstraction.",
       "x-abstract": true,
       "additionalProperties": false
     },
@@ -1148,75 +1135,53 @@
       "additionalProperties": false,
       "properties": {
         "ForwardedForHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XForwardedForHeaderName"
+          "type": "string"
         },
         "ForwardedHostHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XForwardedHostHeaderName"
+          "type": "string"
         },
         "ForwardedProtoHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XForwardedProtoHeaderName"
-        },
-        "ForwardedPrefixHeaderName": {
           "type": "string"
         },
         "OriginalForHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XOriginalForHeaderName"
+          "type": "string"
         },
         "OriginalHostHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XOriginalHostHeaderName"
+          "type": "string"
         },
         "OriginalProtoHeaderName": {
-          "type": "string",
-          "description": "Use this header instead of XOriginalProtoHeaderName"
-        },
-        "OriginalPrefixHeaderName": {
           "type": "string"
         },
         "ForwardedHeaders": {
-          "description": "Identifies which forwarders should be processed.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ForwardedHeaders"
-            }
-          ]
+          "$ref": "#/definitions/ForwardedHeaders"
         },
         "ForwardLimit": {
           "type": [
             "integer",
             "null"
           ],
-          "description": "Limits the number of entries in the headers that will be processed. The default value is 1.\nSet to null to disable the limit, but this should only be done if\nKnownProxies or KnownNetworks are configured.",
           "format": "int32"
         },
         "KnownProxies": {
           "type": "array",
-          "description": "Addresses of known proxies to accept forwarded headers from.",
           "items": {
             "$ref": "#/definitions/IPAddress"
           }
         },
         "KnownNetworks": {
           "type": "array",
-          "description": "Address ranges of known proxies to accept forwarded headers from.",
           "items": {
             "$ref": "#/definitions/IPNetwork"
           }
         },
         "AllowedHosts": {
           "type": "array",
-          "description": "The allowed values from x-forwarded-host. If the list is empty then all hosts are allowed.\nFailing to restrict this these values may allow an attacker to spoof links generated by your service. ",
           "items": {
             "type": "string"
           }
         },
         "RequireHeaderSymmetry": {
-          "type": "boolean",
-          "description": "Require the number of header values to be in sync between the different headers being processed.\nThe default is 'false'."
+          "type": "boolean"
         }
       }
     },
@@ -1229,7 +1194,6 @@
         "XForwardedFor",
         "XForwardedHost",
         "XForwardedProto",
-        "XForwardedPrefix",
         "All"
       ],
       "enum": [
@@ -1237,50 +1201,37 @@
         1,
         2,
         4,
-        8,
-        15
+        7
       ]
     },
     "IPAddress": {
       "type": "object",
-      "description": "Provides an Internet Protocol (IP) address.",
       "additionalProperties": false,
       "properties": {
         "AddressFamily": {
-          "description": "Gets the address family of the IP address.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/AddressFamily"
-            }
-          ]
+          "$ref": "#/definitions/AddressFamily"
         },
         "ScopeId": {
           "type": "integer",
-          "description": "Gets or sets the IPv6 address scope identifier.",
           "format": "int64"
         },
         "IsIPv6Multicast": {
-          "type": "boolean",
-          "description": "Gets whether the address is an IPv6 multicast global address."
+          "type": "boolean"
         },
         "IsIPv6LinkLocal": {
-          "type": "boolean",
-          "description": "Gets whether the address is an IPv6 link local address."
+          "type": "boolean"
         },
         "IsIPv6SiteLocal": {
-          "type": "boolean",
-          "description": "Gets whether the address is an IPv6 site local address."
+          "type": "boolean"
         },
         "IsIPv6Teredo": {
-          "type": "boolean",
-          "description": "Gets whether the address is an IPv6 Teredo address."
+          "type": "boolean"
         },
         "IsIPv6UniqueLocal": {
           "type": "boolean"
         },
         "IsIPv4MappedToIPv6": {
-          "type": "boolean",
-          "description": "Gets whether the IP address is an IPv4-mapped IPv6 address."
+          "type": "boolean"
         },
         "Address": {
           "type": "integer",
@@ -1292,7 +1243,7 @@
     },
     "AddressFamily": {
       "type": "integer",
-      "description": "Specifies the addressing scheme that an instance of the Socket class can use.",
+      "description": "",
       "x-enumNames": [
         "Unspecified",
         "Unix",
@@ -1373,7 +1324,6 @@
         },
         "PrefixLength": {
           "type": "integer",
-          "description": "The CIDR notation of the subnet mask ",
           "format": "int32"
         }
       }
@@ -1450,9 +1400,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "AllowHostHeaderOverride": {
-          "type": "boolean"
-        },
         "AddServerHeader": {
           "type": "boolean"
         },
@@ -1510,7 +1457,6 @@
     },
     "IServiceProvider": {
       "type": "object",
-      "description": "Defines a mechanism for retrieving a service object; that is, an object that provides custom support to other objects.",
       "x-abstract": true,
       "additionalProperties": false
     },
@@ -1677,7 +1623,6 @@
     },
     "IConfiguration": {
       "type": "object",
-      "description": "Represents a set of key/value application configuration properties.",
       "x-abstract": true,
       "additionalProperties": false
     },
@@ -1728,28 +1673,23 @@
       "properties": {
         "SizeLimit": {
           "type": "integer",
-          "description": "The size limit for the response cache middleware in bytes. The default is set to 100 MB.",
           "format": "int64"
         },
         "MaximumBodySize": {
           "type": "integer",
-          "description": "The largest cacheable size for the response body in bytes. The default is set to 64 MB.",
           "format": "int64"
         },
         "UseCaseSensitivePaths": {
-          "type": "boolean",
-          "description": "true if request paths are case-sensitive; otherwise false. The default is to treat paths as case-insensitive."
+          "type": "boolean"
         }
       }
     },
     "ResponseCompressionOptions": {
       "type": "object",
-      "description": "Options for the HTTP response compression middleware.",
       "additionalProperties": false,
       "properties": {
         "MimeTypes": {
           "type": "array",
-          "description": "Response Content-Type MIME types to compress.",
           "items": {
             "type": "string"
           }
@@ -1761,39 +1701,29 @@
           }
         },
         "EnableForHttps": {
-          "type": "boolean",
-          "description": "Indicates if responses over HTTPS connections should be compressed. The default is 'false'.\nEnable compression on HTTPS connections may expose security problems."
+          "type": "boolean"
         },
         "Providers": {
-          "description": "The ICompressionProviders to use for responses.",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/CompressionProviderCollection"
-            }
-          ]
+          "$ref": "#/definitions/CompressionProviderCollection"
         }
       }
     },
     "CompressionProviderCollection": {
       "type": "array",
-      "description": "A Collection of ICompressionProvider's that also allows them to be instantiated from an IServiceProvider.",
       "items": {
         "$ref": "#/definitions/ICompressionProvider"
       }
     },
     "ICompressionProvider": {
       "type": "object",
-      "description": "Provides a specific compression implementation to compress HTTP responses.",
       "x-abstract": true,
       "additionalProperties": false,
       "properties": {
         "EncodingName": {
-          "type": "string",
-          "description": "The encoding name used in the 'Accept-Encoding' request header and 'Content-Encoding' response header."
+          "type": "string"
         },
         "SupportsFlush": {
-          "type": "boolean",
-          "description": "Indicates if the given provider supports Flush and FlushAsync. If not, compression may be disabled in some scenarios."
+          "type": "boolean"
         }
       }
     },
@@ -1813,15 +1743,41 @@
           "format": "duration"
         }
       }
+    },
+    "ExceptionHandlerOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ExceptionHandlingPath": {
+          "type": "string"
+        },
+        "ExceptionHandler": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/RequestDelegate"
+            }
+          ]
+        },
+        "AllowStatusCode404Response": {
+          "type": "boolean"
+        }
+      }
+    },
+    "RequestDelegate": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MulticastDelegate"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false
+        }
+      ]
     }
   },
-  "lastModified": "2024-01-09T04:49:40.6465380-05:00",
-  "contentMediaType": "application/schema+json",
-  "x-generator": "jsonschema.xyz",
-  "x-generator-author": "David G. Moore, Jr.",
-  "x-generator-author-github-url": "https://github.com/dgmjr",
-  "x-generator-description": "This Website provides JSON schemas for any given data type.",
-  "x-generator-email": "json@jsonschema.xyz",
-  "x-generator-url": "https://jsonschema.xyz",
-  "x-generator-version": "v0.0.1"
+  "lastModified": "2024-01-09T05:55:20.1183790-05:00",
+  "contentMediaType": "application/schema+json"
 }
