@@ -9,16 +9,16 @@
       "type": "boolean"
     },
     "CookiePolicy": {
-      "$ref": "#/$defs/CookiePolicyOptions"
+      "$ref": "#/definitions/CookiePolicyOptions"
     },
     "Cors": {
-      "$ref": "#/$defs/CorsOptions"
+      "$ref": "#/definitions/CorsOptions"
     },
     "UseCors": {
       "type": "boolean"
     },
     "FileServer": {
-      "$ref": "#/$defs/FileServerOptions"
+      "$ref": "#/definitions/FileServerOptions"
     },
     "UseFileServer": {
       "type": "boolean"
@@ -27,54 +27,57 @@
       "type": "boolean"
     },
     "ForwardedHeaders": {
-      "$ref": "#/$defs/ForwardedHeadersOptions"
+      "$ref": "#/definitions/ForwardedHeadersOptions"
     },
     "Hsts": {
-      "$ref": "#/$defs/HstsOptions"
+      "$ref": "#/definitions/HstsOptions"
     },
     "UseHsts": {
       "type": "boolean"
     },
     "HttpsRedirection": {
-      "$ref": "#/$defs/HttpsRedirectionOptions"
+      "$ref": "#/definitions/HttpsRedirectionOptions"
     },
     "UseHttpsRedirection": {
       "type": "boolean"
     },
     "IIS": {
-      "$ref": "#/$defs/IISServerOptions"
+      "$ref": "#/definitions/IISServerOptions"
     },
     "Kestrel": {
-      "$ref": "#/$defs/KestrelServerOptions"
+      "$ref": "#/definitions/KestrelServerOptions"
     },
     "OutputCache": {
-      "$ref": "#/$defs/OutputCacheOptions"
+      "$ref": "#/definitions/OutputCacheOptions"
     },
     "UseOutputCaching": {
       "type": "boolean"
     },
     "RequestDecompression": {
-      "$ref": "#/$defs/RequestDecompressionOptions"
+      "$ref": "#/definitions/RequestDecompressionOptions"
     },
     "UseRequestDecompression": {
       "type": "boolean"
     },
     "ResponseCaching": {
-      "$ref": "#/$defs/ResponseCachingOptions"
+      "$ref": "#/definitions/ResponseCachingOptions"
     },
     "UseResponseCaching": {
       "type": "boolean"
     },
     "ResponseCompression": {
-      "$ref": "#/$defs/ResponseCompressionOptions"
+      "$ref": "#/definitions/ResponseCompressionOptions"
     },
     "UseResponseCompression": {
       "type": "boolean"
     },
     "Session": {
-      "$ref": "#/$defs/SessionOptions"
+      "$ref": "#/definitions/SessionOptions"
     },
     "UseSession": {
+      "type": "boolean"
+    },
+    "AddHttpContextAccessor": {
       "type": "boolean"
     },
     "$schema": {
@@ -95,22 +98,22 @@
       "format": "uri"
     }
   },
-  "$defs": {
+  "definitions": {
     "CookiePolicyOptions": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "MinimumSameSitePolicy": {
-          "$ref": "#/$defs/SameSiteMode"
+          "$ref": "#/definitions/SameSiteMode"
         },
         "HttpOnly": {
-          "$ref": "#/$defs/HttpOnlyPolicy"
+          "$ref": "#/definitions/HttpOnlyPolicy"
         },
         "Secure": {
-          "$ref": "#/$defs/CookieSecurePolicy"
+          "$ref": "#/definitions/CookieSecurePolicy"
         },
         "ConsentCookie": {
-          "$ref": "#/$defs/CookieBuilder"
+          "$ref": "#/definitions/CookieBuilder"
         },
         "ConsentCookieValue": {
           "type": "string"
@@ -121,7 +124,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/FuncOfHttpContextAndBoolean"
+              "$ref": "#/definitions/FuncOfHttpContextAndBoolean"
             }
           ]
         },
@@ -131,7 +134,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/ActionOfAppendCookieContext"
+              "$ref": "#/definitions/ActionOfAppendCookieContext"
             }
           ]
         },
@@ -141,15 +144,21 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/ActionOfDeleteCookieContext"
+              "$ref": "#/definitions/ActionOfDeleteCookieContext"
             }
           ]
         }
       }
     },
-    "SameSiteMode_Integers": {
+    "SameSiteMode": {
       "type": "integer",
       "description": "",
+      "x-enumNames": [
+        "None",
+        "Lax",
+        "Strict",
+        "Unspecified"
+      ],
       "enum": [
         0,
         1,
@@ -157,84 +166,30 @@
         -1
       ]
     },
-    "SameSiteMode_Strings": {
-      "type": "string",
-      "description": "",
-      "enum": [
-        "None",
-        "Lax",
-        "Strict",
-        "Unspecified"
-      ]
-    },
-    "SameSiteMode": {
-      "type": ["integer", "string"],
-      "description": "",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/SameSiteMode_Integers"
-        },
-        {
-          "$ref": "#/$defs/SameSiteMode_Strings"
-        }
-      ]
-    },
-    "HttpOnlyPolicy_Integers": {
+    "HttpOnlyPolicy": {
       "type": "integer",
       "description": "",
+      "x-enumNames": [
+        "None",
+        "Always"
+      ],
       "enum": [
         0,
         1
       ]
     },
-    "HttpOnlyPolicy_Strings": {
-      "type": "string",
-      "description": "",
-      "enum": [
-        "None",
-        "Always"
-      ]
-    },
-    "HttpOnlyPolicy": {
-      "type": ["integer", "string"],
-      "description": "",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/HttpOnlyPolicy_Integers"
-        },
-        {
-          "$ref": "#/$defs/HttpOnlyPolicy_Strings"
-        }
-      ]
-    },
     "CookieSecurePolicy": {
       "type": "integer",
       "description": "Determines how cookie security properties are set.",
+      "x-enumNames": [
+        "SameAsRequest",
+        "Always",
+        "None"
+      ],
       "enum": [
         0,
         1,
         2
-      ]
-    },
-    "CookieSecurePolicy": {
-      "type": "string",
-      "description": "Determines how cookie security properties are set.",
-      "enum": [
-        "SameAsRequest",
-        "Always",
-        "None"
-      ]
-    },
-    "CookieSecurePolicy": {
-      "type": ["integer", "string"],
-      "description": "Determines how cookie security properties are set.",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/CookieSecurePolicy_Integers"
-        },
-        {
-          "$ref": "#/$defs/CookieSecurePolicy_Strings"
-        }
       ]
     },
     "CookieBuilder": {
@@ -271,7 +226,7 @@
           "description": "The SameSite attribute of the cookie. The default value is Lax",
           "oneOf": [
             {
-              "$ref": "#/$defs/SameSiteMode"
+              "$ref": "#/definitions/SameSiteMode"
             }
           ]
         },
@@ -279,7 +234,7 @@
           "description": "The policy that will be used to determine .\nThis is determined from the HttpContext passed to Build.",
           "oneOf": [
             {
-              "$ref": "#/$defs/CookieSecurePolicy"
+              "$ref": "#/definitions/CookieSecurePolicy"
             }
           ]
         },
@@ -314,7 +269,7 @@
     "FuncOfHttpContextAndBoolean": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -325,7 +280,7 @@
     "MulticastDelegate": {
       "allOf": [
         {
-          "$ref": "#/$defs/Delegate"
+          "$ref": "#/definitions/Delegate"
         },
         {
           "type": "object",
@@ -348,14 +303,14 @@
           ]
         },
         "Method": {
-          "$ref": "#/$defs/MethodInfo"
+          "$ref": "#/definitions/MethodInfo"
         }
       }
     },
     "MethodInfo": {
       "allOf": [
         {
-          "$ref": "#/$defs/MethodBase"
+          "$ref": "#/definitions/MethodBase"
         },
         {
           "type": "object",
@@ -363,10 +318,10 @@
           "additionalProperties": false,
           "properties": {
             "MemberType": {
-              "$ref": "#/$defs/MemberTypes"
+              "$ref": "#/definitions/MemberTypes"
             },
             "ReturnParameter": {
-              "$ref": "#/$defs/ParameterInfo"
+              "$ref": "#/definitions/ParameterInfo"
             },
             "ReturnType": {
               "type": "string"
@@ -407,10 +362,10 @@
       "additionalProperties": false,
       "properties": {
         "Attributes": {
-          "$ref": "#/$defs/ParameterAttributes"
+          "$ref": "#/definitions/ParameterAttributes"
         },
         "Member": {
-          "$ref": "#/$defs/MemberInfo"
+          "$ref": "#/definitions/MemberInfo"
         },
         "Name": {
           "type": [
@@ -462,7 +417,7 @@
         "CustomAttributes": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeData"
+            "$ref": "#/definitions/CustomAttributeData"
           }
         },
         "MetadataToken": {
@@ -508,12 +463,12 @@
       "additionalProperties": false,
       "properties": {
         "Module": {
-          "$ref": "#/$defs/Module"
+          "$ref": "#/definitions/Module"
         },
         "CustomAttributes": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeData"
+            "$ref": "#/definitions/CustomAttributeData"
           }
         },
         "IsCollectible": {
@@ -531,7 +486,7 @@
       "additionalProperties": false,
       "properties": {
         "Assembly": {
-          "$ref": "#/$defs/Assembly"
+          "$ref": "#/definitions/Assembly"
         },
         "FullyQualifiedName": {
           "type": "string"
@@ -551,12 +506,12 @@
           "type": "string"
         },
         "ModuleHandle": {
-          "$ref": "#/$defs/ModuleHandle"
+          "$ref": "#/definitions/ModuleHandle"
         },
         "CustomAttributes": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeData"
+            "$ref": "#/definitions/CustomAttributeData"
           }
         },
         "MetadataToken": {
@@ -596,7 +551,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/MethodInfo"
+              "$ref": "#/definitions/MethodInfo"
             }
           ]
         },
@@ -627,7 +582,7 @@
         "CustomAttributes": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeData"
+            "$ref": "#/definitions/CustomAttributeData"
           }
         },
         "EscapedCodeBase": {
@@ -636,12 +591,12 @@
           "x-deprecatedMessage": "Assembly.CodeBase and Assembly.EscapedCodeBase are only included for .NET Framework compatibility. Use Assembly.Location."
         },
         "ManifestModule": {
-          "$ref": "#/$defs/Module"
+          "$ref": "#/definitions/Module"
         },
         "Modules": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Module"
+            "$ref": "#/definitions/Module"
           }
         },
         "GlobalAssemblyCache": {
@@ -654,7 +609,7 @@
           "format": "int64"
         },
         "SecurityRuleSet": {
-          "$ref": "#/$defs/SecurityRuleSet"
+          "$ref": "#/definitions/SecurityRuleSet"
         }
       }
     },
@@ -666,18 +621,18 @@
           "type": "string"
         },
         "Constructor": {
-          "$ref": "#/$defs/ConstructorInfo"
+          "$ref": "#/definitions/ConstructorInfo"
         },
         "ConstructorArguments": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeTypedArgument"
+            "$ref": "#/definitions/CustomAttributeTypedArgument"
           }
         },
         "NamedArguments": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/CustomAttributeNamedArgument"
+            "$ref": "#/definitions/CustomAttributeNamedArgument"
           }
         }
       }
@@ -685,7 +640,7 @@
     "ConstructorInfo": {
       "allOf": [
         {
-          "$ref": "#/$defs/MethodBase"
+          "$ref": "#/definitions/MethodBase"
         },
         {
           "type": "object",
@@ -693,7 +648,7 @@
           "additionalProperties": false,
           "properties": {
             "MemberType": {
-              "$ref": "#/$defs/MemberTypes"
+              "$ref": "#/definitions/MemberTypes"
             }
           }
         }
@@ -702,7 +657,7 @@
     "MethodBase": {
       "allOf": [
         {
-          "$ref": "#/$defs/MemberInfo"
+          "$ref": "#/definitions/MemberInfo"
         },
         {
           "type": "object",
@@ -710,10 +665,10 @@
           "additionalProperties": false,
           "properties": {
             "MethodImplementationFlags": {
-              "$ref": "#/$defs/MethodImplAttributes"
+              "$ref": "#/definitions/MethodImplAttributes"
             },
             "CallingConvention": {
-              "$ref": "#/$defs/CallingConventions"
+              "$ref": "#/definitions/CallingConventions"
             },
             "IsAbstract": {
               "type": "boolean"
@@ -779,9 +734,28 @@
         }
       ]
     },
-    "MethodImplAttributes_Integers": {
+    "MethodImplAttributes": {
       "type": "integer",
       "description": "",
+      "x-enumNames": [
+        "IL",
+        "Managed",
+        "Native",
+        "OPTIL",
+        "CodeTypeMask",
+        "Runtime",
+        "ManagedMask",
+        "Unmanaged",
+        "NoInlining",
+        "ForwardRef",
+        "Synchronized",
+        "NoOptimization",
+        "PreserveSig",
+        "AggressiveInlining",
+        "AggressiveOptimization",
+        "InternalCall",
+        "MaxMethodImplVal"
+      ],
       "enum": [
         0,
         0,
@@ -800,41 +774,6 @@
         512,
         4096,
         65535
-      ]
-    },
-    "MethodImplAttributes_Strings": {
-      "type": "string",
-      "description": "",
-      "enum": [
-        "IL",
-        "Managed",
-        "Native",
-        "OPTIL",
-        "CodeTypeMask",
-        "Runtime",
-        "ManagedMask",
-        "Unmanaged",
-        "NoInlining",
-        "ForwardRef",
-        "Synchronized",
-        "NoOptimization",
-        "PreserveSig",
-        "AggressiveInlining",
-        "AggressiveOptimization",
-        "InternalCall",
-        "MaxMethodImplVal"
-      ]
-    },
-    "MethodImplAttributes": {
-      "type": ["integer", "string"],
-      "description": "",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/MethodImplAttributes_Integers"
-        },
-        {
-          "$ref": "#/$defs/MethodImplAttributes_Strings"
-        }
       ]
     },
     "CallingConventions": {
@@ -878,10 +817,10 @@
       "additionalProperties": false,
       "properties": {
         "MemberInfo": {
-          "$ref": "#/$defs/MemberInfo"
+          "$ref": "#/definitions/MemberInfo"
         },
         "TypedValue": {
-          "$ref": "#/$defs/CustomAttributeTypedArgument"
+          "$ref": "#/definitions/CustomAttributeTypedArgument"
         },
         "MemberName": {
           "type": "string"
@@ -918,7 +857,7 @@
     "ActionOfAppendCookieContext": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -929,7 +868,7 @@
     "ActionOfDeleteCookieContext": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -938,6 +877,85 @@
       ]
     },
     "CorsOptions": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CorsOptions2"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Item": {
+              "$ref": "#/definitions/CorsPolicy"
+            }
+          }
+        }
+      ]
+    },
+    "CorsPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "AllowAnyHeader": {
+          "type": "boolean"
+        },
+        "AllowAnyMethod": {
+          "type": "boolean"
+        },
+        "AllowAnyOrigin": {
+          "type": "boolean"
+        },
+        "IsOriginAllowed": {
+          "$ref": "#/definitions/FuncOfStringAndBoolean"
+        },
+        "ExposedHeaders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Headers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Methods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Origins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "PreflightMaxAge": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "duration"
+        },
+        "SupportsCredentials": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FuncOfStringAndBoolean": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MulticastDelegate"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CorsOptions2": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -949,20 +967,20 @@
     "FileServerOptions": {
       "allOf": [
         {
-          "$ref": "#/$defs/SharedOptionsBase"
+          "$ref": "#/definitions/SharedOptionsBase"
         },
         {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "StaticFileOptions": {
-              "$ref": "#/$defs/StaticFileOptions"
+              "$ref": "#/definitions/StaticFileOptions"
             },
             "DirectoryBrowserOptions": {
-              "$ref": "#/$defs/DirectoryBrowserOptions"
+              "$ref": "#/definitions/DirectoryBrowserOptions"
             },
             "DefaultFilesOptions": {
-              "$ref": "#/$defs/DefaultFilesOptions"
+              "$ref": "#/definitions/DefaultFilesOptions"
             },
             "EnableDirectoryBrowsing": {
               "type": "boolean"
@@ -977,14 +995,14 @@
     "StaticFileOptions": {
       "allOf": [
         {
-          "$ref": "#/$defs/SharedOptionsBase"
+          "$ref": "#/definitions/SharedOptionsBase"
         },
         {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "ContentTypeProvider": {
-              "$ref": "#/$defs/IContentTypeProvider"
+              "$ref": "#/definitions/IContentTypeProvider"
             },
             "DefaultContentType": {
               "type": [
@@ -996,13 +1014,13 @@
               "type": "boolean"
             },
             "HttpsCompression": {
-              "$ref": "#/$defs/HttpsCompressionMode"
+              "$ref": "#/definitions/HttpsCompressionMode"
             },
             "OnPrepareResponse": {
-              "$ref": "#/$defs/ActionOfStaticFileResponseContext"
+              "$ref": "#/definitions/ActionOfStaticFileResponseContext"
             },
             "OnPrepareResponseAsync": {
-              "$ref": "#/$defs/FuncOfStaticFileResponseContextAndTask"
+              "$ref": "#/definitions/FuncOfStaticFileResponseContextAndTask"
             }
           }
         }
@@ -1013,40 +1031,24 @@
       "x-abstract": true,
       "additionalProperties": false
     },
-    "HttpsCompressionMode_Integers": {
+    "HttpsCompressionMode": {
       "type": "integer",
       "description": "",
+      "x-enumNames": [
+        "Default",
+        "DoNotCompress",
+        "Compress"
+      ],
       "enum": [
         0,
         1,
         2
       ]
     },
-    "HttpsCompressionMode_Strings": {
-      "type": "integer",
-      "description": "",
-      "enum": [
-        "Default",
-        "DoNotCompress",
-        "Compress"
-      ]
-    },
-    "HttpsCompressionMode": {
-      "type": ["integer", "string"],
-      "description": "",
-      "oneOf": [
-        {
-          "$ref": "#/$defs/HttpsCompressionMode_Integers"
-        },
-        {
-          "$ref": "#/$defs/HttpsCompressionMode_Strings"
-        }
-      ]
-    },
     "ActionOfStaticFileResponseContext": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -1057,7 +1059,7 @@
     "FuncOfStaticFileResponseContextAndTask": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -1079,7 +1081,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/IFileProvider"
+              "$ref": "#/definitions/IFileProvider"
             }
           ]
         },
@@ -1097,7 +1099,7 @@
     "DirectoryBrowserOptions": {
       "allOf": [
         {
-          "$ref": "#/$defs/SharedOptionsBase"
+          "$ref": "#/definitions/SharedOptionsBase"
         },
         {
           "type": "object",
@@ -1109,7 +1111,7 @@
                   "type": "null"
                 },
                 {
-                  "$ref": "#/$defs/IDirectoryFormatter"
+                  "$ref": "#/definitions/IDirectoryFormatter"
                 }
               ]
             }
@@ -1125,7 +1127,7 @@
     "DefaultFilesOptions": {
       "allOf": [
         {
-          "$ref": "#/$defs/SharedOptionsBase"
+          "$ref": "#/definitions/SharedOptionsBase"
         },
         {
           "type": "object",
@@ -1179,7 +1181,7 @@
           "description": "Identifies which forwarders should be processed.",
           "oneOf": [
             {
-              "$ref": "#/$defs/ForwardedHeaders"
+              "$ref": "#/definitions/ForwardedHeaders"
             }
           ]
         },
@@ -1195,14 +1197,14 @@
           "type": "array",
           "description": "Addresses of known proxies to accept forwarded headers from.",
           "items": {
-            "$ref": "#/$defs/IPAddress"
+            "$ref": "#/definitions/IPAddress"
           }
         },
         "KnownNetworks": {
           "type": "array",
           "description": "Address ranges of known proxies to accept forwarded headers from.",
           "items": {
-            "$ref": "#/$defs/IPNetwork"
+            "$ref": "#/definitions/IPNetwork"
           }
         },
         "AllowedHosts": {
@@ -1243,19 +1245,131 @@
       "type": "object",
       "description": "Provides an Internet Protocol (IP) address.",
       "additionalProperties": false,
-      "$ref": "https://jsonschema.xyz/schemas/IPAddress.schema"
+      "properties": {
+        "AddressFamily": {
+          "description": "Gets the address family of the IP address.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/AddressFamily"
+            }
+          ]
+        },
+        "ScopeId": {
+          "type": "integer",
+          "description": "Gets or sets the IPv6 address scope identifier.",
+          "format": "int64"
+        },
+        "IsIPv6Multicast": {
+          "type": "boolean",
+          "description": "Gets whether the address is an IPv6 multicast global address."
+        },
+        "IsIPv6LinkLocal": {
+          "type": "boolean",
+          "description": "Gets whether the address is an IPv6 link local address."
+        },
+        "IsIPv6SiteLocal": {
+          "type": "boolean",
+          "description": "Gets whether the address is an IPv6 site local address."
+        },
+        "IsIPv6Teredo": {
+          "type": "boolean",
+          "description": "Gets whether the address is an IPv6 Teredo address."
+        },
+        "IsIPv6UniqueLocal": {
+          "type": "boolean"
+        },
+        "IsIPv4MappedToIPv6": {
+          "type": "boolean",
+          "description": "Gets whether the IP address is an IPv4-mapped IPv6 address."
+        },
+        "Address": {
+          "type": "integer",
+          "format": "int64",
+          "x-deprecated": true,
+          "x-deprecatedMessage": "IPAddress.Address is address family dependent and has been deprecated. Use IPAddress.Equals to perform comparisons instead."
+        }
+      }
     },
     "AddressFamily": {
       "type": "integer",
       "description": "Specifies the addressing scheme that an instance of the Socket class can use.",
-      "$ref": "https://jsonschema.xyz/schemas/AddressFamily.schema"
+      "x-enumNames": [
+        "Unspecified",
+        "Unix",
+        "InterNetwork",
+        "ImpLink",
+        "Pup",
+        "Chaos",
+        "NS",
+        "Ipx",
+        "Iso",
+        "Osi",
+        "Ecma",
+        "DataKit",
+        "Ccitt",
+        "Sna",
+        "DecNet",
+        "DataLink",
+        "Lat",
+        "HyperChannel",
+        "AppleTalk",
+        "NetBios",
+        "VoiceView",
+        "FireFox",
+        "Banyan",
+        "Atm",
+        "InterNetworkV6",
+        "Cluster",
+        "Ieee12844",
+        "Irda",
+        "NetworkDesigners",
+        "Max",
+        "Packet",
+        "ControllerAreaNetwork",
+        "Unknown"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        65536,
+        65537,
+        -1
+      ]
     },
     "IPNetwork": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "Prefix": {
-          "$ref": "#/$defs/IPAddress"
+          "$ref": "#/definitions/IPAddress"
         },
         "PrefixLength": {
           "type": "integer",
@@ -1295,7 +1409,11 @@
           "format": "int32"
         },
         "HttpsPort": {
-          "$ref": "https://jsonschema.xyz/schemas/TcpPort.schema"
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
         }
       }
     },
@@ -1356,16 +1474,16 @@
           "x-deprecatedMessage": "This property is obsolete and will be removed in a future version. It no longer has any impact on runtime behavior. Use ListenOptions.DisableAltSvcHeader to configure \"Alt-Svc\" behavior."
         },
         "RequestHeaderEncodingSelector": {
-          "$ref": "#/$defs/FuncOfStringAndEncoding"
+          "$ref": "#/definitions/FuncOfStringAndEncoding"
         },
         "ResponseHeaderEncodingSelector": {
-          "$ref": "#/$defs/FuncOfStringAndEncoding"
+          "$ref": "#/definitions/FuncOfStringAndEncoding"
         },
         "ApplicationServices": {
-          "$ref": "#/$defs/IServiceProvider"
+          "$ref": "#/definitions/IServiceProvider"
         },
         "Limits": {
-          "$ref": "#/$defs/KestrelServerLimits"
+          "$ref": "#/definitions/KestrelServerLimits"
         },
         "ConfigurationLoader": {
           "oneOf": [
@@ -1373,7 +1491,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/KestrelConfigurationLoader"
+              "$ref": "#/definitions/KestrelConfigurationLoader"
             }
           ]
         }
@@ -1382,7 +1500,7 @@
     "FuncOfStringAndEncoding": {
       "allOf": [
         {
-          "$ref": "#/$defs/MulticastDelegate"
+          "$ref": "#/definitions/MulticastDelegate"
         },
         {
           "type": "object",
@@ -1456,10 +1574,10 @@
           "format": "int64"
         },
         "Http2": {
-          "$ref": "#/$defs/Http2Limits"
+          "$ref": "#/definitions/Http2Limits"
         },
         "Http3": {
-          "$ref": "#/$defs/Http3Limits"
+          "$ref": "#/definitions/Http3Limits"
         },
         "MinRequestBodyDataRate": {
           "oneOf": [
@@ -1467,7 +1585,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/MinDataRate"
+              "$ref": "#/definitions/MinDataRate"
             }
           ]
         },
@@ -1477,7 +1595,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/MinDataRate"
+              "$ref": "#/definitions/MinDataRate"
             }
           ]
         }
@@ -1550,10 +1668,10 @@
       "additionalProperties": false,
       "properties": {
         "Options": {
-          "$ref": "#/$defs/KestrelServerOptions"
+          "$ref": "#/definitions/KestrelServerOptions"
         },
         "Configuration": {
-          "$ref": "#/$defs/IConfiguration"
+          "$ref": "#/definitions/IConfiguration"
         }
       }
     },
@@ -1583,7 +1701,7 @@
           "type": "boolean"
         },
         "ApplicationServices": {
-          "$ref": "#/$defs/IServiceProvider"
+          "$ref": "#/definitions/IServiceProvider"
         }
       }
     },
@@ -1594,7 +1712,7 @@
         "DecompressionProviders": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/$defs/IDecompressionProvider"
+            "$ref": "#/definitions/IDecompressionProvider"
           }
         }
       }
@@ -1650,7 +1768,7 @@
           "description": "The ICompressionProviders to use for responses.",
           "oneOf": [
             {
-              "$ref": "#/$defs/CompressionProviderCollection"
+              "$ref": "#/definitions/CompressionProviderCollection"
             }
           ]
         }
@@ -1660,7 +1778,7 @@
       "type": "array",
       "description": "A Collection of ICompressionProvider's that also allows them to be instantiated from an IServiceProvider.",
       "items": {
-        "$ref": "#/$defs/ICompressionProvider"
+        "$ref": "#/definitions/ICompressionProvider"
       }
     },
     "ICompressionProvider": {
@@ -1684,7 +1802,7 @@
       "additionalProperties": false,
       "properties": {
         "Cookie": {
-          "$ref": "#/$defs/CookieBuilder"
+          "$ref": "#/definitions/CookieBuilder"
         },
         "IdleTimeout": {
           "type": "string",
@@ -1697,13 +1815,13 @@
       }
     }
   },
-  "lastModified": "2024-01-06T15:36:30.2935520-05:00",
+  "lastModified": "2024-01-09T04:49:40.6465380-05:00",
   "contentMediaType": "application/schema+json",
-  "x-generator": "generator.jsonschema.xyz",
+  "x-generator": "jsonschema.xyz",
   "x-generator-author": "David G. Moore, Jr.",
   "x-generator-author-github-url": "https://github.com/dgmjr",
   "x-generator-description": "This Website provides JSON schemas for any given data type.",
   "x-generator-email": "json@jsonschema.xyz",
-  "x-generator-url": "https://generator.jsonschema.xyz",
+  "x-generator-url": "https://jsonschema.xyz",
   "x-generator-version": "v0.0.1"
 }
